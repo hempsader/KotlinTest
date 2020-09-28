@@ -1,24 +1,38 @@
-import java.util.function.Consumer
-import java.util.function.Predicate
-
 fun main() {
-    val country = "Romania".count { letter -> letter == 'm' }
-    val greetings = { name: String, buildings:Int  ->
-        val number = 30
-        "welcome $name you have $buildings"
-    }
-    print(runSimulation("Ionut",{name, buildings ->
+
+    runSimulation("Ionut",::cost) { playerName, numOfBuildings ->
         val year = 2020
-        "$name welcome back you have $buildings"
-    }))
+        println("adding $numOfBuildings houses")
+        "welcome back $playerName"
+    }
+    runSimulation()
 }
 
-private fun greetingsFun(): String {
-    val name = "Ionut"
-    return "welcome back $name"
+
+inline fun  runSimulation(playerName:String, cost: (Int) -> Unit, greetingFunction: (String, Int) -> String)
+{
+    val numOfBuildings = (1..3).shuffled().last()
+    cost(numOfBuildings)
+    println(greetingFunction(playerName,numOfBuildings))
 }
 
-private inline fun runSimulation(playerName: String, greetingFunction: (String, Int) -> String){
-    val buildings = (1..3).shuffled().last()
-    println(greetingFunction(playerName,buildings))
+fun cost(numbOfBuildings: Int) {
+    val cost = 500 * numbOfBuildings
+    println("construction cost $cost")
+}
+
+fun configureGreetingsFunction (): (String) -> String {
+    val structures = "barraacks"
+    var buildings = 10
+    return {
+        val year = 2020
+        buildings += 1
+        println("Adding $buildings buildings of type $structures")
+        "Welcome to simcity, $it"
+    }
+}
+
+fun runSimulation() {
+    val greetings = configureGreetingsFunction();
+    println(greetings("Ionut"))
 }
