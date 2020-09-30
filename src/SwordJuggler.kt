@@ -1,23 +1,34 @@
+import java.io.File
 import kotlin.math.roundToInt
 
 const val TAVERN_NAME = "Taernyl's Folly"
 var playerGold = 10
 var playerSilver = 9
 var dragonsBreathQuantity: Double = 5.0
-var dragonCoin = 5.0
+val lastName = mutableListOf("Eli", "Mordoc", "Sophie")
+val firstNames = listOf("Sam","Frodo","Gandalf")
+var patrons = setOf<String>()
+val menuItems = File("src/data/menu_items.txt").readText().split("\n")
 
 fun main() {
-    placeOrder("shandy,Dragon's Breath,5.91")
+    (1..20).forEach {
+        val name = "${firstNames.shuffled().first()} ${lastName.shuffled().first()}"
+        patrons += name
+    }
+    val max = menuItems.maxOf {
+        it.length
+    }
+    println(max)
 }
-fun placeOrder(menuData: String) {
+fun placeOrder(patronName: String,menuData: String) {
 
     val indexAphostrope = TAVERN_NAME.indexOf('\'')
     val tavernMaster = TAVERN_NAME.substring(0 until indexAphostrope)
-    println("Madrigal it's speaking with tavern master $tavernMaster to place an order")
+    println("$patronName it's speaking with tavern master $tavernMaster to place an order")
 
     val data = menuData.split(',')
     val (name, type, price) = data
-    val message = "Madrigal buys a $name ($type) for price $price"
+    val message = "$patronName buys a $name ($type) for price $price"
     println(message)
    performPurchase(price.toDouble())
     val phrase = if (type == "Dragon's Breath") {
