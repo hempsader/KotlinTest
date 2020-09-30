@@ -9,16 +9,17 @@ val lastName = mutableListOf("Eli", "Mordoc", "Sophie")
 val firstNames = listOf("Sam","Frodo","Gandalf")
 var patrons = setOf<String>()
 val menuItems = File("src/data/menu_items.txt").readText().split("\n")
+val maxLength = menuItems.maxOf {
+     val drinkName = it.split(',')
+    return@maxOf (drinkName[1]+drinkName[2]).length+14
+}
+
 
 fun main() {
-    (1..20).forEach {
-        val name = "${firstNames.shuffled().first()} ${lastName.shuffled().first()}"
-        patrons += name
-    }
-    val max = menuItems.maxOf {
-        it.length
-    }
-    println(max)
+
+    printMenu()
+
+println(maxLength)
 }
 fun placeOrder(patronName: String,menuData: String) {
 
@@ -68,4 +69,16 @@ private fun performPurchase(price: Double) {
 private fun displayBalance() =
         "You have a total of $playerGold and $playerSilver silver"
 
+private fun printMenu(){
+    println("*** Welcome to Taernyl's Folly ***")
+    println()
+    menuItems.forEach {
+        val pointsToAdd = (maxLength - it.split(',')[1].length - it.split(',')[2].length)
+        var points: String = ""
+        (1..pointsToAdd).forEach{ _ ->
+            points += "."
+        }
+        println("${it.split(',')[1]}$points${it.split(',')[2]}")
+    }
+}
 
