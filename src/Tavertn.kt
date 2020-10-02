@@ -22,9 +22,9 @@ fun main() {
     patrons.forEach {
         patronGold.putIfAbsent(it,6.0)
     }
-    patrons.forEach { println(it) }
+   // patrons.forEach { println(it) }
 
-    placeOrder("Eli Gandalf",menuItems[1])
+ //   placeOrder("Eli Gandalf",menuItems[1])
 }
 
 fun placeOrder(patronName: String,menuData: String) {

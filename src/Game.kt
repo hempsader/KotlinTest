@@ -1,5 +1,5 @@
 fun main() {
-    val player = Player()
+    val player = Player("Madrigal")
 
     printPlayerStatus(player)
 
@@ -21,7 +21,9 @@ private fun printLogic(
 private fun printPlayerStatus(player: Player){
     println("Aura: ${player.auraColor()}")
     println("Blessed: ${if (player.isBlessed) "YES" else "NO"}")
-    println("${player.name} ${player.formatHealthStatus()}")
+    println(player.name + player.formatHealthStatus())
+
+
 }
 
 
