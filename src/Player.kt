@@ -1,9 +1,10 @@
 import java.io.File
 
-class Player(_name: String, var  healthPoints: Int = 100, _isBlessed: Boolean, private val _isImmortal: Boolean) {
+class Player(_name: String, override var  healthPoints: Int = 100, _isBlessed: Boolean, private val _isImmortal: Boolean): Fightable {
     private val homeTown: String  by lazy {  homeTown() }
     val isBlessed = _isBlessed
     private val isImmortal = _isImmortal
+    var currentPosition = Navigation(0,0)
     var name = _name
         get() = "${field.capitalize()} of " + homeTown
         private set(value) {
@@ -39,4 +40,16 @@ class Player(_name: String, var  healthPoints: Int = 100, _isBlessed: Boolean, p
                 in 15..74 -> "looks pretty hurt."
                 else -> "is in awful condition!"
             }
+
+    override val diceCount: Int
+        get() = 3
+    override val diceSide: Int
+        get() = 6
+
+
+    override fun attack(opponent: Fightable): Int {
+        val damageDealt = if (isBlessed) damageRoll * 2 else damageRoll
+        opponent.healthPoints -= damageDealt
+        return damageDealt
+    }
 }
